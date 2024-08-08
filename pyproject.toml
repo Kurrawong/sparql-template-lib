@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "sparql-template-lib"
+version = "0.1.0"
+description = ""
+authors = ["david <dcchabgood@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+sparql = {url = "https://github.com/Kurrawong/sparql/archive/refs/tags/0.1.4.zip"}
+
+
+[tool.poetry.group.Dev.dependencies]
+pytest = "^8.3.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

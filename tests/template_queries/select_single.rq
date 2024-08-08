@@ -1,0 +1,5 @@
+SELECT ?s ?p ?o
+WHERE {
+  VALUES ?p { UNDEF }
+  ?s ?p ?o .
+}
