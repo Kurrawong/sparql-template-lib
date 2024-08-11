@@ -46,16 +46,6 @@ def get_named_graph_clause(named_graph_clause: Tree):
         raise ValueError(f"Unexpected default_graph_clause value type: {value.data}")
 
 
-def get_dataset_clause_value(dataset_clause: Tree):
-    value = dataset_clause.children[1]
-    if value.data == "default_graph_clause":
-        return get_default_graph_clause(value)
-    elif value.data == "named_graph_clause":
-        return get_named_graph_clause(value)
-    else:
-        raise ValueError(f"Unexpected dataset_clause value type: {value.data}")
-
-
 def set_value(node: Tree | Token, tree_path: list[str], new_value):
     if not tree_path:
         if isinstance(node, Token):
