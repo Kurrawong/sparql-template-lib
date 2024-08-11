@@ -1,19 +1,12 @@
 import asyncio
-import itertools
 from abc import ABC
 from concurrent.futures import ThreadPoolExecutor
 
 from lark import Transformer
 
-# from src.services.graph import GraphService
-
 
 class BaseTransformer(Transformer, ABC):
-    # def __init__(self, service: GraphService, vars: set[str]):
-    #     self.service = service
-    #     self.vars = vars
     def __init__(self):
-
         def initializer():
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
