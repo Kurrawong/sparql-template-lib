@@ -1,7 +1,7 @@
 CONSTRUCT {
-  ?s ?p ?o
+  ?s a ?class
 }
 WHERE {
-  VALUES ?p { UNDEF }
-  ?s ?p ?o .
+  VALUES ?class { UNDEF }
+  ?s a ?class .
 }

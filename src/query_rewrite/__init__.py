@@ -12,5 +12,5 @@ def query_rewrite(query: str, query_arguments: dict):
         ast = transformer.transform(ast)
         serializer = SparqlSerializer()
         serializer.visit_topdown(ast)
-    print(serializer.result)
+    # print(serializer.result)
     return serializer.result

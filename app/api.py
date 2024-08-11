@@ -1,20 +1,25 @@
 from fasthtml.common import *
 from headers import hdrs
 from pathlib import Path
+import json
+
+from src.query_rewrite import query_rewrite
 
 app, rt = fast_app(hdrs=hdrs)
 setup_toasts(app)
 
-js = """let edHtml = me("#editorHtml");
+js = """let edSparql = me("#editorHtml");
 let edJson = me("#editorJson");
-let cmHtml = CodeMirror(edHtml, { mode: "sparql", foldGutter: true, gutters: ["CodeMirror-foldgutter"] });
-let cmJson = CodeMirror(edJson, { mode: "application/json", foldGutter: true, gutters: ["CodeMirror-foldgutter"] });
-cmHtml.on("change", _ => edHtml.send("edited"));
+let edResult = me("#details");
+let cmSparql = CodeMirror(edSparql, { mode: "sparql", foldGutter: true, gutters: ["CodeMirror-foldgutter"] });
+let cmJson = CodeMirror(edJson, { mode: "application/json_string", foldGutter: true, gutters: ["CodeMirror-foldgutter"] });
+let cmResult = CodeMirror(edResult, { mode: "sparql", foldGutter: true, gutters: ["CodeMirror-foldgutter"] });
+cmSparql.on("change", _ => edSparql.send("edited"));
 cmJson.on("change", _ => edJson.send("edited"));"""
 
 
-def set_cm_html(s):
-    return run_js("cmHtml.setValue({s});", s=s)
+def set_cm_sparql(s):
+    return run_js("cmSparql.setValue({s});", s=s)
 
 
 def set_cm_json(s):
@@ -25,22 +30,19 @@ def set_cm_result(s):
     return run_js("cmResult.setValue({s});", s=s)
 
 
-def concatenate_strings(html_str, json_str):
-    return html_str + "\n" + json_str
-
-
 @rt("/")
 def get():
-    samp = Path("../tests/template_queries/construct_multiple.rq").read_text()
+    sample_template_query = Path("../tests/template_queries/construct_single.rq").read_text()
+    sample_arguments = Path("../tests/template_args/construct_single.saj").read_text()
     ed_html_kw = dict(
         hx_post="/",
         target_id="details",
-        hx_vals="js:{sparql_template: cmHtml.getValue(), json: cmJson.getValue()}",
+        hx_vals="js:{sparql_template: cmSparql.getValue(), json_string: cmJson.getValue()}",
     )
     ed_json_kw = dict(
         hx_post="/",
         target_id="details",
-        hx_vals="js:{sparql_template: cmHtml.getValue(), json: cmJson.getValue()}",
+        hx_vals="js:{sparql_template: cmSparql.getValue(), json_string: cmJson.getValue()}",
     )
     frm = Form(
         Div(
@@ -53,22 +55,25 @@ def get():
             **ed_json_kw,
             hx_trigger="edited delay:300ms, load delay:100ms"
         ),
-        Div(id="editorResult"),
+        Div(id="details"),
     )
     return Titled(
-        "Concatenate SPARQL and JSON",
+        "SPARQL Template Editor",
         frm,
         Script(js),
         Div(id="details"),
-        set_cm_html(samp),
-        set_cm_json("{}"),
+        set_cm_sparql(sample_template_query),
+        set_cm_json(sample_arguments),
     )
 
 
 @rt("/")
-def post(sparql_template: str, json: str):
-    concatenated = concatenate_strings(sparql_template, json)
-    return Pre(Code(concatenated, lang="html"))
+def post(sparql_template: str, json_string: str):
+    test = json.loads(json_string)
+    result = query_rewrite(sparql_template, test)
+    set_cm_result(result)
+    # return set_cm_result(result)
+    return Pre(Code(result, lang="sparql"))
 
 
 serve()

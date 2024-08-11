@@ -1,0 +1,45 @@
+{
+  "head": {
+    "vars": [
+      "s",
+      "o"
+    ]
+  },
+  "arguments": {
+    "bindings": [
+      {
+        "s": {
+          "type": "uri",
+          "value": "https://myuri"
+        },
+        "o": {
+          "type": "literal",
+          "value": "literally"
+        }
+      },
+      {
+        "s": {
+          "type": "literal",
+          "value": "langtag",
+          "xml:lang": "en"
+        },
+        "o": {
+          "type": "literal",
+          "value": "3.14",
+          "datatype": "http://www.w3.org/2001/XMLSchema#decimal"
+        }
+      },
+      {
+        "s": {
+          "type": "uri",
+          "value": "https://boolean"
+        },
+        "o": {
+          "type": "literal",
+          "value": "true",
+          "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+        }
+      }
+    ]
+  }
+}

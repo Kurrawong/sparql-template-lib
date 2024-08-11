@@ -1,0 +1,17 @@
+{
+  "head": {
+    "vars": [
+      "class"
+    ]
+  },
+  "arguments": {
+    "bindings": [
+      {
+        "class": {
+          "type": "uri",
+          "value": "http://www.w3.org/ns/dcat#Dataset"
+        }
+      }
+    ]
+  }
+}

@@ -79,13 +79,13 @@ files = [
 
 [[package]]
 name = "fastcore"
-version = "1.6.3"
+version = "1.6.6"
 description = "Python supercharged for fastai development"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "fastcore-1.6.3-py3-none-any.whl", hash = "sha256:2d079ac224e6f9e1db81aa6d1206b99a54fcf324c3dab914523bbff5bfcaa887"},
-    {file = "fastcore-1.6.3.tar.gz", hash = "sha256:87731839bd729698ac177969bf494596f5f703df8739f67c52f51a178ceab464"},
+    {file = "fastcore-1.6.6-py3-none-any.whl", hash = "sha256:96e125b11aebfc1420bb15e6bedfbdf6a84cd4146ce156f602c7b013d21e0474"},
+    {file = "fastcore-1.6.6.tar.gz", hash = "sha256:07f2b1de6f052c0853e9f86062f41e48b05c834f3ec68806a03a23439a774b1c"},
 ]
 
 [package.dependencies]

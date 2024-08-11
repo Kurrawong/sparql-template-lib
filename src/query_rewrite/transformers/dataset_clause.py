@@ -1,5 +1,3 @@
-import copy
-
 from lark import Tree, Token
 
 from src.query_rewrite import BaseTransformer
@@ -12,7 +10,7 @@ class InlineDataTransformer(BaseTransformer):
         super().__init__()
 
     def _replace_undef_in_data_block(
-        self, children: list[Tree | Token]
+            self, children: list[Tree | Token]
     ) -> tuple[list[Tree | Token], list[Tree]]:
 
         dataset_clauses = list(
@@ -23,8 +21,8 @@ class InlineDataTransformer(BaseTransformer):
         children = list(
             filter(
                 lambda x: isinstance(x, Token)
-                or isinstance(x, Tree)
-                and x.data != "data_block",
+                          or isinstance(x, Tree)
+                          and x.data != "data_block",
                 children,
             )
         )
@@ -35,13 +33,13 @@ class InlineDataTransformer(BaseTransformer):
             if isinstance(child, Tree) and child.data == "data_block":
                 for grandchild in child.children:
                     if (
-                        isinstance(grandchild, Tree)
-                        and grandchild.data == "inline_data_one_var"
+                            isinstance(grandchild, Tree)
+                            and grandchild.data == "inline_data_one_var"
                     ):
                         for i, var_or_dbvg in enumerate(grandchild.children):
                             if (
-                                isinstance(var_or_dbvg, Tree)
-                                and var_or_dbvg.data == "var"
+                                    isinstance(var_or_dbvg, Tree)
+                                    and var_or_dbvg.data == "var"
                             ):
                                 var = var_or_dbvg.children[0].value.lstrip("?")
                                 for binding in self.query_arguments["arguments"][
@@ -50,13 +48,13 @@ class InlineDataTransformer(BaseTransformer):
                                     if var in binding:
                                         replacement_values_list.append(binding[var])
                             elif (
-                                isinstance(var_or_dbvg, Tree)
-                                and var_or_dbvg.data == "data_block_value"
+                                    isinstance(var_or_dbvg, Tree)
+                                    and var_or_dbvg.data == "data_block_value"
                             ):
                                 for value in var_or_dbvg.children:
                                     if (
-                                        isinstance(value, Token)
-                                        and value.value == "UNDEF"
+                                            isinstance(value, Token)
+                                            and value.value == "UNDEF"
                                     ):
                                         grandchild.children.pop(i)
                                         for vals_dict in replacement_values_list:
@@ -67,7 +65,11 @@ class InlineDataTransformer(BaseTransformer):
                                                 )
                                             elif vals_dict["type"] == "literal":
                                                 if vals_dict.get("datatype"):
-                                                    token_string = self._escape_multi_line_strings(vals_dict)
+                                                    token_string = (
+                                                        self._escape_multi_line_strings(
+                                                            vals_dict
+                                                        )
+                                                    )
                                                     grandchild.children.insert(
                                                         i,
                                                         _create_dbv_literal_datatype(
@@ -84,30 +86,32 @@ class InlineDataTransformer(BaseTransformer):
                                                 else:  # plain literal
                                                     grandchild.children.insert(
                                                         i,
-                                                        self._create_dbv_plain_literal(vals_dict),
+                                                        self._create_dbv_plain_literal(
+                                                            vals_dict
+                                                        ),
                                                     )
                                     new_nodes.append(child)
                     elif (
-                        isinstance(grandchild, Tree)
-                        and grandchild.data == "inline_data_full"
+                            isinstance(grandchild, Tree)
+                            and grandchild.data == "inline_data_full"
                     ):
                         vars_in_ildf = []
                         for i, var_or_dbvg in enumerate(grandchild.children):
                             if (
-                                isinstance(var_or_dbvg, Tree)
-                                and var_or_dbvg.data == "var"
+                                    isinstance(var_or_dbvg, Tree)
+                                    and var_or_dbvg.data == "var"
                             ):
                                 var = var_or_dbvg.children[0].value.lstrip("?")
                                 vars_in_ildf.append(var)
                             elif (
-                                isinstance(var_or_dbvg, Tree)
-                                and var_or_dbvg.data == "data_block_value_group"
+                                    isinstance(var_or_dbvg, Tree)
+                                    and var_or_dbvg.data == "data_block_value_group"
                             ):
                                 all_undef = False
                                 for dbv in var_or_dbvg.children:
                                     if (
-                                        isinstance(dbv, Tree)
-                                        and dbv.data == "data_block_value"
+                                            isinstance(dbv, Tree)
+                                            and dbv.data == "data_block_value"
                                     ):
                                         for value in dbv.children:
                                             if isinstance(value, Token):
@@ -117,7 +121,9 @@ class InlineDataTransformer(BaseTransformer):
                                                     all_undef = False
                                 if all_undef:
                                     grandchild.children.pop(i)
-                                    for vals_set in reversed(self.query_arguments["arguments"]["bindings"]):
+                                    for vals_set in reversed(
+                                            self.query_arguments["arguments"]["bindings"]
+                                    ):
                                         # check each var has a supplied argument, if not it is UNDEF
                                         new_children = []
                                         # all_vals = {}
@@ -135,15 +141,44 @@ class InlineDataTransformer(BaseTransformer):
                                             elif arg_val["type"] == "literal":
                                                 dtype = arg_val.get("datatype")
                                                 if dtype:
-                                                    if dtype == "http://www.w3.org/2001/XMLSchema#boolean":
+                                                    if (
+                                                            dtype
+                                                            == "http://www.w3.org/2001/XMLSchema#boolean"
+                                                    ):
                                                         new_children.append(
-                                                            Tree(Token('RULE', 'data_block_value'), [
-                                                                Tree(Token('RULE', 'boolean_literal'), [
-                                                                    Tree(Token('RULE', f"{arg_val["value"]}"),
-                                                                         [Token(f"{arg_val["value"].upper()}", f"{arg_val["value"]}")])])])
+                                                            Tree(
+                                                                Token(
+                                                                    "RULE",
+                                                                    "data_block_value",
+                                                                ),
+                                                                [
+                                                                    Tree(
+                                                                        Token(
+                                                                            "RULE",
+                                                                            "boolean_literal",
+                                                                        ),
+                                                                        [
+                                                                            Tree(
+                                                                                Token(
+                                                                                    "RULE",
+                                                                                    f"{arg_val['value']}",
+                                                                                ),
+                                                                                [
+                                                                                    Token(
+                                                                                        f"{arg_val['value'].upper()}",
+                                                                                        f"{arg_val['value']}",
+                                                                                    )
+                                                                                ],
+                                                                            )
+                                                                        ],
+                                                                    )
+                                                                ],
+                                                            )
                                                         )
                                                     else:
-                                                        token_string = self._escape_multi_line_strings(arg_val)
+                                                        token_string = self._escape_multi_line_strings(
+                                                            arg_val
+                                                        )
                                                         new_children.append(
                                                             _create_dbv_literal_datatype(
                                                                 token_string, arg_val
@@ -156,10 +191,19 @@ class InlineDataTransformer(BaseTransformer):
                                                         )
                                                     )
                                                 else:
-                                                    new_children.append(self._create_dbv_plain_literal(arg_val))
+                                                    new_children.append(
+                                                        self._create_dbv_plain_literal(
+                                                            arg_val
+                                                        )
+                                                    )
                                             elif arg_val["type"] == "UNDEF":
                                                 new_children.append(
-                                                    Tree(Token('RULE', 'data_block_value'), [Token('UNDEF', 'UNDEF')])
+                                                    Tree(
+                                                        Token(
+                                                            "RULE", "data_block_value"
+                                                        ),
+                                                        [Token("UNDEF", "UNDEF")],
+                                                    )
                                                 )
 
                                         new_children.append(
