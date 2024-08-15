@@ -3,7 +3,7 @@ from headers import hdrs
 from pathlib import Path
 import json
 
-from src.query_rewrite import query_rewrite
+from stl.query_rewrite import query_rewrite
 
 app, rt = fast_app(hdrs=hdrs)
 setup_toasts(app)

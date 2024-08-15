@@ -1,0 +1,140 @@
+{
+  "examples": [
+    {
+      "name": "Literal",
+      "query": "CONSTRUCT {\n    ?s ?p ?o\n}\nWHERE {\n    VALUES ?o { UNDEF }\n    ?s ?p ?o\n}",
+      "queryArgs": {
+        "head": {"vars": ["o"]},
+        "arguments": {
+          "bindings": [
+            {
+              "o": {
+                "type": "literal",
+                "value": "Harry Potter and the Half-Blood Prince"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Langtag",
+      "query": "CONSTRUCT {\n    ?s ?p ?o\n}\nWHERE {\n    VALUES ?o { UNDEF }\n    ?s ?p ?o\n}",
+      "queryArgs": {
+        "head": {"vars": ["o"]},
+        "arguments": {
+          "bindings": [
+            {
+              "o": {
+                "type": "literal",
+                "value": "Bob",
+                "xml:lang": "en"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "URI",
+      "query": "CONSTRUCT {\n    ?s ?p ?o\n}\nWHERE {\n    VALUES ?o { UNDEF }\n    ?s ?p ?o\n}",
+      "queryArgs": {
+        "head": {"vars": ["o"]},
+        "arguments": {
+          "bindings": [
+            {
+              "o": {
+                "type": "uri",
+                "value": "http://example.org/book/book6"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "XMLLiteral",
+      "query": "CONSTRUCT {\n    ?s ?p ?o\n}\nWHERE {\n    VALUES ?o { UNDEF }\n    ?s ?p ?o\n}",
+      "queryArgs": {
+        "head": {"vars": ["o"]},
+        "arguments": {
+          "bindings": [
+            {
+              "o": {
+                "datatype": "http://www.w3.org/1999/02/22-rdf-syntax-ns#XMLLiteral",
+                "type": "literal",
+                "value": "<p xmlns=\"http://www.w3.org/1999/xhtml\">My name is <b>alice</b></p>"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Two Variables",
+      "query": "CONSTRUCT {\n    ?s ?p ?o\n}\nWHERE {\n    VALUES (?s ?o) { ( UNDEF UNDEF ) }\n    ?s ?p ?o\n}",
+      "queryArgs": {
+        "head": {"vars": ["s", "o"]},
+        "arguments": {
+          "bindings": [
+            {
+              "s": {
+                "type": "uri",
+                "value": "https://myuri"
+              },
+              "o": {
+                "type": "literal",
+                "value": "literally"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Two Variables with Langtag",
+      "query": "CONSTRUCT {\n    ?s ?p ?o\n}\nWHERE {\n    VALUES (?s ?o) { ( UNDEF UNDEF ) }\n    ?s ?p ?o\n}",
+      "queryArgs": {
+        "head": {"vars": ["s", "o"]},
+        "arguments": {
+          "bindings": [
+            {
+              "s": {
+                "type": "literal",
+                "value": "langtag",
+                "xml:lang": "en"
+              },
+              "o": {
+                "type": "literal",
+                "value": "3.14",
+                "datatype": "http://www.w3.org/2001/XMLSchema#decimal"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Two Variables with Boolean",
+      "query": "CONSTRUCT {\n    ?s ?p ?o\n}\nWHERE {\n    VALUES (?s ?o) { ( UNDEF UNDEF ) }\n    ?s ?p ?o\n}",
+      "queryArgs": {
+        "head": {"vars": ["s", "o"]},
+        "arguments": {
+          "bindings": [
+            {
+              "s": {
+                "type": "uri",
+                "value": "https://boolean"
+              },
+              "o": {
+                "type": "literal",
+                "value": "true",
+                "datatype": "http://www.w3.org/2001/XMLSchema#boolean"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

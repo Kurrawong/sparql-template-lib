@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "sparql-template-lib"
+name = "stl"
 version = "0.1.0"
 description = ""
 authors = ["david <dcchabgood@gmail.com>"]
@@ -7,13 +7,24 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-sparql = {url = "https://github.com/Kurrawong/sparql/archive/refs/tags/0.1.4.zip"}
-python-fasthtml = "^0.2.4"
+#sparql = { path = "./dist/sparql-0.1.4-py3-none-any.whl" }
+#fastapi = "^0.112.0"
+#uvicorn = "^0.30.6"
 
-
-[tool.poetry.group.Dev.dependencies]
+[tool.poetry.group.dev.dependencies]
 pytest = "^8.3.2"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+packages = [
+    { include = "stl" }
+]
+
+# Include necessary files in the distribution
+include = [
+    { path = "README.md", format = "sdist" },
+    { path = "LICENSE", format = "sdist" },
+    { path = "pyproject.toml", format = "sdist" }
+]

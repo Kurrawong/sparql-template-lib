@@ -1,8 +1,7 @@
 from sparql.parser import sparql_parser
 from sparql.serializer import SparqlSerializer
 
-from src.query_rewrite.transformers import BaseTransformer
-from src.query_rewrite.transformers.dataset_clause import InlineDataTransformer
+from stl.transformers.dataset_clause import InlineDataTransformer
 
 
 def query_rewrite(query: str, query_arguments: dict):

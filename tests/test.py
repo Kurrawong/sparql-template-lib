@@ -1,7 +1,7 @@
 import pytest
 from sparql import sparql_parser
 
-from src.query_rewrite import query_rewrite
+from stl.query_rewrite import query_rewrite
 
 
 @pytest.mark.parametrize(

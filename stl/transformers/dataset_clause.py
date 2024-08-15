@@ -1,6 +1,6 @@
 from lark import Tree, Token
 
-from src.query_rewrite import BaseTransformer
+from stl.transformers import BaseTransformer
 
 
 class InlineDataTransformer(BaseTransformer):
