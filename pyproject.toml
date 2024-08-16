@@ -7,9 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-#sparql = { path = "./dist/sparql-0.1.4-py3-none-any.whl" }
-#fastapi = "^0.112.0"
-#uvicorn = "^0.30.6"
+sparql = {url = "https://github.com/Kurrawong/sparql/archive/refs/tags/0.1.4.zip"}
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.2"
