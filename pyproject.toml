@@ -7,7 +7,9 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-sparql = {url = "https://github.com/Kurrawong/sparql/archive/refs/tags/0.1.4.zip"}
+Inisparql = {url = "https://github.com/Kurrawong/sparql/archive/refs/tags/0.1.5.zip"}
+fastapi = "^0.112.2"
+python-multipart = "^0.0.9"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.3.2"
