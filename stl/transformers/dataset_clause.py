@@ -10,7 +10,7 @@ class InlineDataTransformer(BaseTransformer):
         super().__init__()
 
     def _replace_undef_in_data_block(
-            self, children: list[Tree | Token]
+        self, children: list[Tree | Token]
     ) -> tuple[list[Tree | Token], list[Tree]]:
 
         dataset_clauses = list(
@@ -21,8 +21,8 @@ class InlineDataTransformer(BaseTransformer):
         children = list(
             filter(
                 lambda x: isinstance(x, Token)
-                          or isinstance(x, Tree)
-                          and x.data != "data_block",
+                or isinstance(x, Tree)
+                and x.data != "data_block",
                 children,
             )
         )
@@ -33,13 +33,13 @@ class InlineDataTransformer(BaseTransformer):
             if isinstance(child, Tree) and child.data == "data_block":
                 for grandchild in child.children:
                     if (
-                            isinstance(grandchild, Tree)
-                            and grandchild.data == "inline_data_one_var"
+                        isinstance(grandchild, Tree)
+                        and grandchild.data == "inline_data_one_var"
                     ):
                         for i, var_or_dbvg in enumerate(grandchild.children):
                             if (
-                                    isinstance(var_or_dbvg, Tree)
-                                    and var_or_dbvg.data == "var"
+                                isinstance(var_or_dbvg, Tree)
+                                and var_or_dbvg.data == "var"
                             ):
                                 var = var_or_dbvg.children[0].value.lstrip("?")
                                 for binding in self.query_arguments["arguments"][
@@ -48,13 +48,13 @@ class InlineDataTransformer(BaseTransformer):
                                     if var in binding:
                                         replacement_values_list.append(binding[var])
                             elif (
-                                    isinstance(var_or_dbvg, Tree)
-                                    and var_or_dbvg.data == "data_block_value"
+                                isinstance(var_or_dbvg, Tree)
+                                and var_or_dbvg.data == "data_block_value"
                             ):
                                 for value in var_or_dbvg.children:
                                     if (
-                                            isinstance(value, Token)
-                                            and value.value == "UNDEF"
+                                        isinstance(value, Token)
+                                        and value.value == "UNDEF"
                                     ):
                                         grandchild.children.pop(i)
                                         for vals_dict in replacement_values_list:
@@ -92,26 +92,26 @@ class InlineDataTransformer(BaseTransformer):
                                                     )
                                     new_nodes.append(child)
                     elif (
-                            isinstance(grandchild, Tree)
-                            and grandchild.data == "inline_data_full"
+                        isinstance(grandchild, Tree)
+                        and grandchild.data == "inline_data_full"
                     ):
                         vars_in_ildf = []
                         for i, var_or_dbvg in enumerate(grandchild.children):
                             if (
-                                    isinstance(var_or_dbvg, Tree)
-                                    and var_or_dbvg.data == "var"
+                                isinstance(var_or_dbvg, Tree)
+                                and var_or_dbvg.data == "var"
                             ):
                                 var = var_or_dbvg.children[0].value.lstrip("?")
                                 vars_in_ildf.append(var)
                             elif (
-                                    isinstance(var_or_dbvg, Tree)
-                                    and var_or_dbvg.data == "data_block_value_group"
+                                isinstance(var_or_dbvg, Tree)
+                                and var_or_dbvg.data == "data_block_value_group"
                             ):
                                 all_undef = False
                                 for dbv in var_or_dbvg.children:
                                     if (
-                                            isinstance(dbv, Tree)
-                                            and dbv.data == "data_block_value"
+                                        isinstance(dbv, Tree)
+                                        and dbv.data == "data_block_value"
                                     ):
                                         for value in dbv.children:
                                             if isinstance(value, Token):
@@ -122,7 +122,7 @@ class InlineDataTransformer(BaseTransformer):
                                 if all_undef:
                                     grandchild.children.pop(i)
                                     for vals_set in reversed(
-                                            self.query_arguments["arguments"]["bindings"]
+                                        self.query_arguments["arguments"]["bindings"]
                                     ):
                                         # check each var has a supplied argument, if not it is UNDEF
                                         new_children = []
@@ -142,8 +142,8 @@ class InlineDataTransformer(BaseTransformer):
                                                 dtype = arg_val.get("datatype")
                                                 if dtype:
                                                     if (
-                                                            dtype
-                                                            == "http://www.w3.org/2001/XMLSchema#boolean"
+                                                        dtype
+                                                        == "http://www.w3.org/2001/XMLSchema#boolean"
                                                     ):
                                                         new_children.append(
                                                             Tree(

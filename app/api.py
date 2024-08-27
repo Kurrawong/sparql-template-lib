@@ -32,7 +32,9 @@ def set_cm_result(s):
 
 @rt("/")
 def get():
-    sample_template_query = Path("../tests/template_queries/construct_single.rq").read_text()
+    sample_template_query = Path(
+        "../tests/template_queries/construct_single.rq"
+    ).read_text()
     sample_arguments = Path("../tests/template_args/construct_single.saj").read_text()
     ed_html_kw = dict(
         hx_post="/",

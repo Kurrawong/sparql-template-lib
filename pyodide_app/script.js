@@ -32,7 +32,7 @@ async function loadAndRun() {
     // Install your wheel from the local server
     await pyodide.runPythonAsync(`
 import micropip
-await micropip.install('http://localhost:8050/whl/sparql-0.1.4-py3-none-any.whl')
+await micropip.install('https://kurrawong.github.io/sparql/sparql-1-py3-none-any.whl')
 await micropip.install('http://localhost:8050/whl/stl-0.1.0-py3-none-any.whl')
     `);
 
